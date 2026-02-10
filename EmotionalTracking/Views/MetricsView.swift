@@ -99,30 +99,15 @@ struct MetricsView: View {
                                     Text("Por factor")
                                         .font(.headline)
                                         .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.horizontal)
                                     
                                     ForEach(viewModel.factors) { factor in
-                                        let stats = viewModel.getStatistics(for: factor.id)
+                                        let trendData = viewModel.getTrendData(for: factor.id)
                                         
-                                        VStack(spacing: 12) {
-                                            HStack {
-                                                Text(factor.name)
-                                                    .font(.headline)
-                                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                                
-                                                Text(String(format: "%.1f", selectedPeriod == .sevenDays ? stats.sevenDaysAverage : stats.thirtyDaysAverage))
-                                                    .font(.system(.headline, design: .default))
-                                                    .foregroundColor(.accentColor)
-                                            }
-                                            
-                                            SimpleChart(
-                                                data: viewModel.getTrendData(for: factor.id),
-                                                label: ""
-                                            )
-                                        }
-                                        .padding()
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .fill(Color.gray.opacity(0.05))
+                                        AdvancedLineChart(
+                                            data: trendData.map { ($0.0, Double($0.1)) },
+                                            title: factor.name,
+                                            factorName: factor.name
                                         )
                                     }
                                 }
