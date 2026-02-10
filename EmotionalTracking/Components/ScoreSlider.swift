@@ -6,6 +6,21 @@ struct ScoreSlider: View {
     @Binding var score: Int
     var onScoreChange: (Int) -> Void = { _ in }
     
+    var temperatureColor: Color {
+        switch score {
+        case 1...2:
+            return .blue
+        case 3...4:
+            return .cyan
+        case 5...6:
+            return .yellow
+        case 7...8:
+            return .orange
+        default:
+            return .red
+        }
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -17,12 +32,12 @@ struct ScoreSlider: View {
                 
                 ZStack {
                     Circle()
-                        .fill(Color.accentColor.opacity(0.1))
+                        .fill(temperatureColor.opacity(0.2))
                         .frame(width: 50, height: 50)
                     
                     Text("\(score)")
                         .font(.system(size: 24, weight: .bold, design: .default))
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(temperatureColor)
                 }
             }
             
@@ -33,7 +48,7 @@ struct ScoreSlider: View {
                     onScoreChange(score)
                 }
             ), in: 1...10, step: 1)
-                .tint(.accentColor)
+                .tint(temperatureColor)
             
             HStack {
                 Text("Muy bueno")
