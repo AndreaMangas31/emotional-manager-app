@@ -51,40 +51,10 @@ struct DailyEntryView: View {
                             }
                             .padding(.horizontal)
                             
-                            // Promedio
+                            // Temperatura emocional
                             if let entry = viewModel.todayEntry, entry.averageScore > 0 {
-                                VStack(spacing: 8) {
-                                    HStack {
-                                        Text("Tu estado emocional")
-                                            .font(.headline)
-                                        
-                                        Spacer()
-                                        
-                                        HStack(spacing: 4) {
-                                            Image(systemName: "heart.fill")
-                                                .foregroundColor(.red)
-                                            
-                                            Text(String(format: "%.1f", entry.averageScore))
-                                                .font(.system(.headline, design: .default))
-                                        }
-                                    }
-                                    
-                                    ZStack(alignment: .leading) {
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(Color.gray.opacity(0.2))
-                                        
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(colorForAverage(entry.averageScore))
-                                            .frame(width: (entry.averageScore / 10) * 280)
-                                    }
-                                    .frame(height: 8)
-                                }
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(Color.gray.opacity(0.05))
-                                )
-                                .padding(.horizontal)
+                                TemperatureGauge(score: entry.averageScore)
+                                    .padding(.horizontal)
                             }
                             
                             // Notas opcional
